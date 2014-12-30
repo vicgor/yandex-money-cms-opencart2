@@ -4,7 +4,7 @@
 
 1. 	**Сделайте бекап!**
 
-2. 	Содержимое папки поместить в корень вашего магазина.
+2. 	Содержимое скачанного архива поместите в корень вашего магазина.
 
 3. 	Если вы используете [ЧПУ](https://clck.ru/9PcGw) то впишите в ваш ```.htaccess``` строку ```RewriteRule ^yandexbuy/([^?]*)$ index.php?route=yandexbuy/$1 [L,QSA]``` Вписать нужно после ```RewriteBase /``` и перед ```RewriteRule ^sitemap.xml$ index.php?route=feed/google_sitemap [L]```
 
