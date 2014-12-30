@@ -1,6 +1,8 @@
 #Инструкция по установке модуля в CMS [Opencart V2](http://www.opencart.com/?route=download/download)
 
-1. 	Сделайте бекап!
+0.  [Скачайте модуль](https://github.com/aTastyCookie/yandex_opencart2/blob/master/yandex_pack_opencart.zip)
+
+1. 	**Сделайте бекап!**
 
 2. 	Содержимое папки поместить в корень вашего магазина.
 
