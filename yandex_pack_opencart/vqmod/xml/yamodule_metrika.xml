@@ -1,0 +1,56 @@
+<modification>
+	<id>Yandex Metrika for OpenCart 1.5.x</id>
+	<version>1.0.0</version>
+	<vqmver>1.2.3</vqmver>
+	<author>Vata</author>
+	<file name="catalog/controller/common/footer.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[
+			$data['newsletter'] = $this->url->link('account/newsletter', '', 'SSL');
+			]]></search>
+			<add trim="true"><![CDATA[
+			$data['yandex_metrika'] = $this->config->get('ya_metrika_code') ? html_entity_decode($this->config->get('ya_metrika_code'), ENT_QUOTES, 'UTF-8') : '';
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/checkout/success.php">
+		<operation>
+			<search position="after" index="1"><![CDATA[
+			if (isset($this->session->data['order_id'])) {
+			]]></search>
+			<add trim="true"><![CDATA[
+			$this->load->model('yamodel/pokupki');
+			$data['script_order'] = $this->model_yamodel_pokupki->getscript($this->session->data['order_id']);
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/default/template/common/success.tpl">
+		<operation>
+			<search position="before" index="1"><![CDATA[
+			<?php echo $footer; ?>
+			]]></search>
+			<add trim="true"><![CDATA[
+			<?php if (isset($script_order)) { echo $script_order; } ?>
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/default/template/common/footer.tpl">
+		<operation>
+			<search position="before" index="1"><![CDATA[
+			</body>
+			]]></search>
+			<add trim="true"><![CDATA[
+			<?php echo $yandex_metrika; ?>
+			<script type="text/javascript">
+				function metrikaReach(goal_name, params) {
+				for (var i in window) {
+					if (/^yaCounter\d+/.test(i)) {
+						window[i].reachGoal(goal_name, params);
+					}
+				}
+			}
+			</script>
+			]]></add>
+		</operation>
+	</file>
+</modification>
