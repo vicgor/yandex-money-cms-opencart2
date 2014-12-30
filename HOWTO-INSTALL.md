@@ -4,7 +4,7 @@
 
 2. 	Содержимое папки поместить в корень вашего магазина.
 
-3. 	Если вы используете [ЧПУ](https://ru.wikipedia.org/wiki/%D0%A7%D0%9F%D0%A3_(%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82) то впишите в ваш ```.htaccess``` строку ```RewriteRule ^yandexbuy/([^?]*)$ index.php?route=yandexbuy/$1 [L,QSA]``` Вписать нужно после ```RewriteBase /``` и перед ```RewriteRule ^sitemap.xml$ index.php?route=feed/google_sitemap [L]```
+3. 	Если вы используете [ЧПУ](https://clck.ru/9PcGw) то впишите в ваш ```.htaccess``` строку ```RewriteRule ^yandexbuy/([^?]*)$ index.php?route=yandexbuy/$1 [L,QSA]``` Вписать нужно после ```RewriteBase /``` и перед ```RewriteRule ^sitemap.xml$ index.php?route=feed/google_sitemap [L]```
 
   **Должно выйти так:**
   ```
