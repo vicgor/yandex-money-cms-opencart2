@@ -179,8 +179,8 @@ Class ModelYamodelYamarket extends Model
 	{
 		$allowed = array('url', 'price', 'currencyId', 'categoryId', 'picture', 'store', 'pickup', 'delivery', 'name', 'vendor', 'vendorCode', 'model', 'description', 'sales_notes', 'downloadable', 'weight', 'dimensions', 'param', 'sales_notes', 'country_of_origin');
 		$param = array();
-		$data['model'] = $data['id'].'_tovar';
-		$data['vendor'] = $data['id'].'_tovar';
+		// $data['model'] = $data['id'].'_tovar';
+		// $data['vendor'] = $data['id'].'_tovar';
 		if(isset($data['param']))
 			$param = $data['param'];
 		foreach($data as $k => $v)
