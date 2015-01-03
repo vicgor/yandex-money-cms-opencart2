@@ -92,7 +92,7 @@ class ControllerYandexbuyOrder extends Controller
 						$taxes = $this->cart->getTaxes();
 						$this->session->data['customer_id'] = '';
 						$message = isset($data->order->notes) ? $data->order->notes : null;
-						$customer_info = $this->model_account_customer->getCustomerByEmail('2343319@gmail.com');
+						$customer_info = $this->model_account_customer->getCustomer($this->config->get('yandexbuy_customer'));
 						$this->session->data['customer_id'] = $customer_info['customer_id'];
 						$delivery = isset($data->order->delivery->address) ? $data->order->delivery->address : new stdClass();
 						$street = isset($delivery->street) ? ' Улица: '.$delivery->street : 'Самовывоз';

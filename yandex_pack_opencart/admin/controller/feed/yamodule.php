@@ -593,7 +593,7 @@ class ControllerFeedYamodule extends Controller {
 			'ya_kassa_active' => 0,
 			'ya_kassa_log' => 1,
 			'ya_kassa_test' => 1,
-			'ya_metrika_active' => 1,
+			'ya_metrika_active' => 0,
 			'ya_metrika_webvizor' => 1,
 			'ya_metrika_otkaz' => 1,
 			'ya_metrika_clickmap' => 1,
@@ -601,7 +601,7 @@ class ControllerFeedYamodule extends Controller {
 			'ya_metrika_hash' => 1,
 			'ya_metrika_cart' => 1,
 			'ya_metrika_order' => 1,
-			'ya_market_active' => 1,
+			'ya_market_active' => 0,
 			'ya_market_prostoy' => 0,
 			'ya_market_set_available' => 2,
 			'ya_market_available' => 1,
@@ -613,6 +613,10 @@ class ControllerFeedYamodule extends Controller {
 			'ya_market_store' => 1,
 			'ya_market_delivery' => 1,
 			'ya_market_pickup' => 1,
+			'ya_pokupki_yandex' => 1,
+			'ya_pokupki_sprepaid' => 1,
+			'ya_pokupki_cash' => 1,
+			'ya_pokupki_bank' => 1
 		);
 
 		$q = $this->db->query("CREATE TABLE IF NOT EXISTS `".DB_PREFIX."pokupki_orders` (
@@ -628,12 +632,63 @@ class ControllerFeedYamodule extends Controller {
 
 		$this->load->model('setting/setting');
 		foreach ($fields as $k => $field)
-			$this->model_setting_setting->editSetting($k, $field);
+			$this->model_setting_setting->editSetting($k, array($k => $field));
+		$user = array();
+		$user['firstname'] = 'ya-name';
+		$user['lastname'] = 'ya-lastname';
+		$user['address'][0]['firstname'] = 'ya-name';
+		$user['address'][0]['lastname'] = 'ya-lastname';
+		$user['email'] = 'test@2.ru';
+		$user['telephone'] = 999999;
+		$user['address'][0]['telephone'] = 999999;
+		$user['address'][0]['address_1'] = 'Address';
+		$user['address'][0]['postcode'] = 000000;
+		$user['address'][0]['city'] = 'ya-Город';
+		$user['address'][0]['country_id'] = '';
+		$user['address'][0]['custom_field'] = '';
+		$user['newsletter'] = '';
+		$user['customer_group_id'] = 1;
+		$user['custom_field'] = '';
+		$user['safe'] = '';
+		$user['fax'] = '';
+		$user['address'][0]['fax'] = '';
+		$user['address'][0]['company'] = '';
+		$user['address'][0]['address_2'] = '';
+		$user['address'][0]['zone_id'] = '';
+		$user['status'] = true;
+		$user['password'] = rand(100000, 500000);
+		$customer_id = $this->addCustomer($user);
+		$this->model_setting_setting->editSetting('yandexbuy_customer', array('yandexbuy_customer' => $customer_id));
 	}
-	
+
+	public function addCustomer($data) {
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET customer_group_id = '" . (int)$data['customer_group_id'] . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', custom_field = '" . $this->db->escape(serialize($data['custom_field'])) . "', newsletter = '" . (int)$data['newsletter'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', status = '" . (int)$data['status'] . "', safe = '" . (int)$data['safe'] . "', date_added = NOW()");
+		$customer_id = $this->db->getLastId();
+		if (isset($data['address'])) {
+			foreach ($data['address'] as $address) {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($address['firstname']) . "', lastname = '" . $this->db->escape($address['lastname']) . "', company = '" . $this->db->escape($address['company']) . "', address_1 = '" . $this->db->escape($address['address_1']) . "', address_2 = '" . $this->db->escape($address['address_2']) . "', city = '" . $this->db->escape($address['city']) . "', postcode = '" . $this->db->escape($address['postcode']) . "', country_id = '" . (int)$address['country_id'] . "', zone_id = '" . (int)$address['zone_id'] . "', custom_field = '" . $this->db->escape(serialize($address['custom_field'])) . "'");
+				$address_id = $this->db->getLastId();
+				$this->db->query("UPDATE " . DB_PREFIX . "customer SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+			}
+		}
+		
+		return $customer_id;
+	}
+
+	public function getCustomer($customer_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$customer_id . "'");
+		return $query->row;
+	}
+
 	public function uninstall()
 	{
 		// $this->db->query("DROP TABLE `".DB_PREFIX."pokupki_orders`");
+		$cu = $this->getCustomer($this->config->get('yandexbuy_customer'));
+		if ($cu['customer_id'] && $cu['address_id'])
+		{
+			$this->db->query("DELETE FROM " . DB_PREFIX . "customer WHERE customer_id = ".$cu['customer_id']);
+			$this->db->query("DELETE FROM " . DB_PREFIX . "address WHERE address_id = ".$cu['address_id']);
+		}
 	}
 }
 ?>
