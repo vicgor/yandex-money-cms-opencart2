@@ -1,6 +1,8 @@
 #[YandexCMSModule Opencart 2](https://github.com/aTastyCookie/yandex_opencart2/blob/master/yandex_pack_opencart.zip) 
 ##[ИНСТРУКЦИЯ ПО УСТАНОВКЕ](https://github.com/aTastyCookie/yandex_opencart2/blob/master/HOWTO-INSTALL.md) /  [INSTALLATION MANUAL](https://github.com/aTastyCookie/yandex_opencart2/blob/master/HOWTO-INSTALL.md)
 
+###Если у вас возникли вопросы - напишите нам uYMCMS@yandex.ru
+
 Мы собрали все основные сервисы Яндекса в одном месте,чтобы вам было удобно работать со своим сайтом, сделанном на CMS Prestashop. Подробнее о возможностях этого модуля:
 
 ##[Яндекс.Касса](http://kassa.yandex.ru/) и на вашем сайте будут самые популярные способы оплаты.
