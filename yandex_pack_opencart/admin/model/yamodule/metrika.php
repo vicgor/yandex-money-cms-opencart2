@@ -120,7 +120,6 @@ Class ModelYamoduleMetrika extends Model
 	{
 		$query = $this->db->query('SELECT * FROM '.DB_PREFIX.'setting WHERE `key` = "'.$name.'"');
 		return $query->row['value'];
-		Loader::dieObject($query);
 	}
 
 	public function editCounter()
@@ -236,7 +235,6 @@ Class ModelYamoduleMetrika extends Model
 		$result = new stdClass();
 		$result->status_code = $rcode;
 		$result->body = $rbody;
-		// Loader::dieObject($result);
 		return $result;
 	}
 }

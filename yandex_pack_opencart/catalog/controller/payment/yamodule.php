@@ -265,7 +265,7 @@ class ControllerPaymentYamodule extends Controller
 						if($this->config->get('ya_p2p_log'))
 							$this->log_save('wallet_redirect: refused '.$this->descriptionError($request_payment->error));
 							$this->error = true;
-							Loader::dieObject($this->descriptionError($request_payment->error));
+							die($this->descriptionError($request_payment->error));
 						break;
 					case 'hold_for_pickup':
 						if($this->config->get('ya_p2p_log'))

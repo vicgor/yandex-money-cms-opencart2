@@ -99,7 +99,7 @@ Class ModelYamodelPokupki extends Model
 		if($response->status_code == 200)
 			return $data;
 		else
-			Loader::dieObject($response);
+			die(print_r($response));
 	}
 
 	public static function post($url, $headers, $params, $type){

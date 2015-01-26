@@ -69,7 +69,6 @@ Class ModelYamodelYamoney extends Model
 			return false;
 		}
 
-		return true;
-	
+		return true;	
 	}
 }

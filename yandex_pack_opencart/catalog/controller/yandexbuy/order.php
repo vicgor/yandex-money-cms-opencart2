@@ -49,8 +49,6 @@ class ControllerYandexbuyOrder extends Controller
 			else
 			{
 				$data = json_decode($json);
-				// header('Content-Type: text/html; charset=utf-8');
-				// Loader::dieObject($data);
 				$this->load->model('catalog/product');
 				$this->load->model('account/customer');
 				$this->load->model('account/address');

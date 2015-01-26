@@ -130,8 +130,6 @@ class ControllerYandexbuyCart extends Controller
 							continue;
 
 						$count = min($product_info['quantity'], (int)$item->count);
-						// $discounts = $this->model_catalog_product->getProductDiscounts($id_product);
-						// Loader::dieObject($product_info);
 						if ($product_info['special'] && $product_info['special'] < $product_info['price'])
 							$total = number_format($this->currency->convert($this->tax->calculate($product_info['special'] + $price_option, $product_info['tax_class_id'], $this->config->get('config_tax')), $shop_currency, $offers_currency), $decimal_place, '.', '');
 						else
@@ -224,9 +222,7 @@ class ControllerYandexbuyCart extends Controller
 						'paymentMethods' => $payments
 					)
 				);
-				
-				// header('Content-Type: text/html; charset=utf-8');
-				// Loader::dieObject($array);
+
 				$this->response->addHeader('Content-Type: application/json; charset=utf-8');
 				$this->response->setOutput(json_encode($array));
 			}

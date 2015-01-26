@@ -139,7 +139,6 @@ class ControllerFeedYamarket extends Controller {
 			$colors = $this->model_yamodel_yamarket->getProductOptions($this->config->get('ya_market_color_options'), $product['product_id']);
 		if (count($this->config->get('ya_market_size_options')))
 			$sizes = $this->model_yamodel_yamarket->getProductOptions($this->config->get('ya_market_size_options'), $product['product_id']);
-// Loader::dieObject($this->config->get('ya_market_size_options'));
 		if (!count($colors) && !count($sizes))
 			return false;
 
@@ -211,7 +210,6 @@ class ControllerFeedYamarket extends Controller {
 					if (isset($data_temp['oldprice']))
 						$data_temp['oldprice'] = number_format($this->currency->convert($this->tax->calculate($data_temp['oldprice'], $product['tax_class_id'], $this->config->get('config_tax')), $shop_currency, $offers_currency), $decimal_place, '.', '');
 					if ($data['price'] > 0) {
-						// Loader::dieObject($data_temp['price'], false);
 						$object->add_offer($data_temp['id'], $data_temp, $data_temp['available']);
 					}
 					unset($data_temp);
