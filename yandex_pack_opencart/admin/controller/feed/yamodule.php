@@ -208,7 +208,7 @@ class ControllerFeedYamodule extends Controller {
 		$data['ya_metrika_callback'] = $this->url->link('feed/yamodule/preparem', 'token='.$this->session->data['token'], 'SSL');
 		$data['ya_pokupki_callback'] = $this->url->link('feed/yamodule/preparep', 'token='.$this->session->data['token'], 'SSL');
 		$data['ya_pokupki_sapi'] = HTTPS_CATALOG.'yandexbuy';
-		$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamodule';
+		$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamarket';
 		$data['ya_pokupki_gtoken'] = $this->config->get('ya_pokupki_gtoken');
 		$data['ya_metrika_o2auth'] = $this->config->get('ya_metrika_o2auth');
 		$data['token_url'] = 'https://oauth.yandex.ru/token?';
