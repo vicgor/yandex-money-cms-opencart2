@@ -471,15 +471,6 @@
 								<form action="<?php echo $action; ?>" method="POST" id="form-seting" class="market_form form-horizontal">
 									<input type="hidden" value="market" name="type_data"/>
 									<div class="form-group">
-										<label class="col-sm-4 control-label"><?php echo $active; ?></label>
-										<div class="col-sm-8">
-											<label class="radio-inline">
-												<input type="radio" <?php echo ($ya_market_active ? ' checked="checked"' : ''); ?> name="ya_market_active" value="1"/> <?php echo $active_on; ?></label>
-											<label class="radio-inline">
-												<input type="radio" <?php echo (!$ya_market_active ? ' checked="checked"' : ''); ?> name="ya_market_active" value="0"/> <?php echo $active_off; ?></label>
-										</div>
-									</div>
-									<div class="form-group">
 										<label class="col-sm-4 control-label"><?php echo $market_prostoy; ?></label>
 										<div class="col-sm-8">
 											<label class="radio-inline">

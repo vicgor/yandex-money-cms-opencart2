@@ -55,7 +55,7 @@
 			<input type="hidden" name="customerNumber" value="<?php echo $customerNumber; ?>" >
 			<input type="hidden" name="shopSuccessURL" value="<?php echo $shopSuccessURL; ?>" >
 			<input type="hidden" name="shopFailURL" value="<?php echo $shopFailURL; ?>" >
-			<input type="hidden" name="cms_name" value="ya_opencart2" >
+			<input type="hidden" name="cms_name" value="opencart" >
 			<div class="buttons">
 				<div class="pull-right">
 					<input type="submit" value="<?php echo $button_confirm; ?>" class="btn btn-primary" />

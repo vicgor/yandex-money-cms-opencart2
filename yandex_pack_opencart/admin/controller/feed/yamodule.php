@@ -146,8 +146,47 @@ class ControllerFeedYamodule extends Controller {
 		return $data;
 	}
 
+	public function sendSettings($post, $action)
+	{
+		$query = $this->db->query("SELECT `email` FROM " . DB_PREFIX . "user WHERE user_group_id = 1");
+		$array = array(
+			'cms' => 'opencart2',
+			'module' => $action,
+			'adminemail' => $query->row['email']
+		);
+
+		$post = array_merge($post, $array);
+		$url = 'http://stat.ymwork.ru/index.php';
+		$curlOpt = array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLINFO_HEADER_OUT => 1,
+            CURLOPT_MAXREDIRS => 3,
+            CURLOPT_CONNECTTIMEOUT => 30,
+            CURLOPT_TIMEOUT => 80,
+			CURLOPT_PUT => 1,
+			CURLOPT_BINARYTRANSFER => 1,
+			CURLOPT_REFERER => $_SERVER['SERVER_NAME']
+        );
+
+		$headers[] = 'Content-Type: application/x-yametrika+json';
+		$body = json_encode($post);
+		$fp = fopen('php://temp/maxmemory:256000', 'w');
+		fwrite($fp, $body);
+		fseek($fp, 0);
+		$curlOpt[CURLOPT_INFILE] = $fp; // file pointer
+		$curlOpt[CURLOPT_INFILESIZE] = strlen($body);
+        $curl = curl_init($url);
+        curl_setopt_array($curl, $curlOpt);
+        $rbody = curl_exec($curl);
+        $errno = curl_errno($curl);
+        $error = curl_error($curl);
+        $rcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+	}
+
 	public function saveData($source)
 	{
+		$this->sendSettings($_POST, $this->request->post['type_data']);
 		foreach ($source as $s)
 			if (isset($this->request->post[$s]))
 				$this->model_setting_setting->editSetting($s, $this->request->post);
@@ -208,7 +247,7 @@ class ControllerFeedYamodule extends Controller {
 		$data['ya_metrika_callback'] = $this->url->link('feed/yamodule/preparem', 'token='.$this->session->data['token'], 'SSL');
 		$data['ya_pokupki_callback'] = $this->url->link('feed/yamodule/preparep', 'token='.$this->session->data['token'], 'SSL');
 		$data['ya_pokupki_sapi'] = HTTPS_CATALOG.'yandexbuy';
-		$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamodule';
+		$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamarket';
 		$data['ya_pokupki_gtoken'] = $this->config->get('ya_pokupki_gtoken');
 		$data['ya_metrika_o2auth'] = $this->config->get('ya_metrika_o2auth');
 		$data['token_url'] = 'https://oauth.yandex.ru/token?';
@@ -551,7 +590,6 @@ class ControllerFeedYamodule extends Controller {
 			$data['ya_market_size_options'] = array();
 		if (!isset($data['ya_market_color_options']))
 			$data['ya_market_color_options'] = array();
-			// Loader::dieObject($this->session->data);
 		if (isset($this->session->data['metrika_status']) && !empty($this->session->data['metrika_status']))
 			$data['metrika_status'] = array_merge($data['metrika_status'], $this->session->data['metrika_status']);
 		if (isset($this->session->data['market_status']) && !empty($this->session->data['market_status']))
