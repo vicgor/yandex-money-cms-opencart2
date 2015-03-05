@@ -1,7 +1,7 @@
 <?php
 // Heading
-$_['heading_title']      = 'Ya CMS OpenCart 2';
-$_['heading_title_ya']      = 'Ya CMS OpenCart 2';
+$_['heading_title']      = 'Y.CMS OpenCart 2';
+$_['heading_title_ya']      = 'Y.CMS OpenCart 2';
 
 // Text
 $_['p2p']          = 'yandex p2p';
