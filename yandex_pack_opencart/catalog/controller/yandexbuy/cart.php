@@ -67,9 +67,7 @@ class ControllerYandexbuyCart extends Controller
 		else
 		{
 			$json = file_get_contents("php://input");
-			$this->log_save($json);
-			// $json = '{"cart":{"currency":"RUR","items":[{"feedId":392329,"offerId":"30c51c53","feedCategoryId":"20","offerName":"30c51c53_tovar","count":6}],"delivery":{"region":{"id":13,"name":"Тамбов","type":"CITY","parent":{"id":10802,"name":"Тамбовская область","type":"SUBJECT_FEDERATION","parent":{"id":3,"name":"Центральный федеральный округ","type":"COUNTRY_DISTRICT","parent":{"id":225,"name":"Россия","type":"COUNTRY"}}}}}}}';
-			// $json = '{"cart":{"currency":"RUR","items":[{"feedId":392329,"offerId":"30c51c53","feedCategoryId":"20","offerName":"30c51c53_tovar","count":1}],"delivery":{"region":{"id":13,"name":"Тамбов","type":"CITY","parent":{"id":10802,"name":"Тамбовская область","type":"SUBJECT_FEDERATION","parent":{"id":3,"name":"Центральный федеральный округ","type":"COUNTRY_DISTRICT","parent":{"id":225,"name":"Россия","type":"COUNTRY"}}}}}}}';
+			$this->log_save('pokupki cart request: '.$json);
 			if (!$json)
 			{
 				header('HTTP/1.0 404 Not Found');
@@ -231,7 +229,7 @@ class ControllerYandexbuyCart extends Controller
 	
 	public static function log_save($logtext)
 	{
-		$real_log_file = './'.date('Y-m-d').'.log';
+		$real_log_file = './ya_logs/'.date('Y-m-d').'.log';
 		$h = fopen($real_log_file , 'ab');
 		fwrite($h, date('Y-m-d H:i:s ') . '[' . addslashes($_SERVER['REMOTE_ADDR']) . '] ' . $logtext . "\n");
 		fclose($h);

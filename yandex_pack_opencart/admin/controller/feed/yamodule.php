@@ -148,6 +148,7 @@ class ControllerFeedYamodule extends Controller {
 
 	public function saveData($source)
 	{
+		// $this->sendSettings($_POST, $this->request->post['type_data']);
 		foreach ($source as $s)
 			if (isset($this->request->post[$s]))
 				$this->model_setting_setting->editSetting($s, $this->request->post);
@@ -170,6 +171,7 @@ class ControllerFeedYamodule extends Controller {
 				$this->session->data['p2p_status'] = array();
 				$this->saveData($this->fields_p2p);
 				$this->session->data['p2p_status'][] = $this->success_alert('Настройки успешно сохранены!');
+				// $this->session->data['p2p_status'][] = $this->errors_alert('Настройки успешно сохранены!');
 				if($this->request->post['ya_p2p_active'] == 1)
 					$this->model_setting_setting->editSetting('ya_kassa_active', array('ya_kassa_active' => 0));
 				break;
@@ -200,15 +202,26 @@ class ControllerFeedYamodule extends Controller {
 		foreach ($array as $a)
 			$data[$a] = $this->config->get($a);
 
-		$data['ya_p2p_linkapp'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/inside';
 		$data['ya_kassa_check'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/callback';
 		$data['ya_kassa_aviso'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/callback';
-		$data['ya_kassa_fail'] = HTTPS_CATALOG.'index.php?route=checkout/failure';
-		$data['ya_kassa_success'] = HTTPS_CATALOG.'index.php?route=checkout/success';
+		$data['ya_pokupki_sapi'] = HTTPS_CATALOG.'yandexbuy';
+		if ($this->config->get('config_secure'))
+		{
+			$data['ya_kassa_fail'] = HTTPS_CATALOG.'index.php?route=checkout/failure';
+			$data['ya_kassa_success'] = HTTPS_CATALOG.'index.php?route=checkout/success';
+			$data['ya_p2p_linkapp'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/inside';
+			$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamarket';
+		}
+		else
+		{
+			$data['ya_kassa_fail'] = HTTP_CATALOG.'index.php?route=checkout/failure';
+			$data['ya_kassa_success'] = HTTP_CATALOG.'index.php?route=checkout/success';
+			$data['ya_p2p_linkapp'] = HTTP_CATALOG.'index.php?route=payment/yamodule/inside';
+			$data['ya_market_lnk_yml'] = HTTP_CATALOG.'index.php?route=feed/yamarket';
+		}
+
 		$data['ya_metrika_callback'] = $this->url->link('feed/yamodule/preparem', 'token='.$this->session->data['token'], 'SSL');
 		$data['ya_pokupki_callback'] = $this->url->link('feed/yamodule/preparep', 'token='.$this->session->data['token'], 'SSL');
-		$data['ya_pokupki_sapi'] = HTTPS_CATALOG.'yandexbuy';
-		$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamodule';
 		$data['ya_pokupki_gtoken'] = $this->config->get('ya_pokupki_gtoken');
 		$data['ya_metrika_o2auth'] = $this->config->get('ya_metrika_o2auth');
 		$data['token_url'] = 'https://oauth.yandex.ru/token?';
@@ -551,7 +564,6 @@ class ControllerFeedYamodule extends Controller {
 			$data['ya_market_size_options'] = array();
 		if (!isset($data['ya_market_color_options']))
 			$data['ya_market_color_options'] = array();
-			// Loader::dieObject($this->session->data);
 		if (isset($this->session->data['metrika_status']) && !empty($this->session->data['metrika_status']))
 			$data['metrika_status'] = array_merge($data['metrika_status'], $this->session->data['metrika_status']);
 		if (isset($this->session->data['market_status']) && !empty($this->session->data['market_status']))
@@ -682,7 +694,6 @@ class ControllerFeedYamodule extends Controller {
 
 	public function uninstall()
 	{
-		// $this->db->query("DROP TABLE `".DB_PREFIX."pokupki_orders`");
 		$cu = $this->getCustomer($this->config->get('yandexbuy_customer'));
 		if ($cu['customer_id'] && $cu['address_id'])
 		{

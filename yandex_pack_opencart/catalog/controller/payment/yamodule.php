@@ -26,7 +26,7 @@ class ControllerPaymentYamodule extends Controller
 		$data['shopSuccessURL'] = $this->url->link('checkout/success', '', 'SSL');
 		$data['shopFailURL'] = $this->url->link('checkout/failure', '', 'SSL');
 		$data['comment'] = $order_info['comment'];
-		$data['sum'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
+		$data['sum'] = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2);
 		$data['method_ym'] = $this->config->get('ya_kassa_wallet');
 		$data['method_cards'] = $this->config->get('ya_kassa_card');
 		$data['method_cash'] = $this->config->get('ya_kassa_terminal');
@@ -53,7 +53,7 @@ class ControllerPaymentYamodule extends Controller
 
 	public static function log_save($logtext)
 	{
-		$real_log_file = './'.date('Y-m-d').'.log';
+		$real_log_file = './ya_logs/'.date('Y-m-d').'.log';
 		$h = fopen($real_log_file , 'ab');
 		fwrite($h, date('Y-m-d H:i:s ') . '[' . addslashes($_SERVER['REMOTE_ADDR']) . '] ' . $logtext . "\n");
 		fclose($h);
@@ -82,16 +82,25 @@ class ControllerPaymentYamodule extends Controller
         return sprintf("%s/oauth/authorize?%s", self::SP_MONEY_URL, $params);
     }
 
+	public function d($d)
+	{
+		echo '<pre>';
+		print_r($d);
+		echo '</pre>';
+		die();
+	}
+
 	public function yaredirect()
 	{
 		if (isset($_POST['payment-type']) && !empty($_POST['payment-type']))
 		{
 			if ($_POST['payment-type'] == 'wallet')
 			{
-				$this->session->data['p2p_type'] = $POST['payment-type'];
+				$this->session->data['p2p_type'] = $_POST['payment-type'];
 				$this->load->model('checkout/order');
 				$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-				$limit = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
+				// $this->d($total);
+				$limit = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2, '.', '');
 				$scope = array(
 					"payment.to-account(\"".$this->config->get('ya_p2p_number')."\",\"account\").limit(,".$limit.")",
 					"money-source(\"wallet\",\"card\")"
@@ -145,7 +154,7 @@ class ControllerPaymentYamodule extends Controller
 			$message = 'payment to order #'.$this->session->data['order_id'];
 			$this->load->model('checkout/order');
 			$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-			$total = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
+			$total = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2);
 			$payment_options = array(
 				'pattern_id' => 'p2p',
 				'to' => $this->config->get('ya_p2p_number'),
@@ -228,7 +237,7 @@ class ControllerPaymentYamodule extends Controller
 				$message = 'payment to order #'.$this->session->data['order_id'];
 				$this->load->model('checkout/order');
 				$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-				$total = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
+				$total = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2);
 				$rarray = array(
 					'pattern_id' => 'p2p',
 					'to' => $this->config->get('ya_p2p_number'),
@@ -265,7 +274,8 @@ class ControllerPaymentYamodule extends Controller
 						if($this->config->get('ya_p2p_log'))
 							$this->log_save('wallet_redirect: refused '.$this->descriptionError($request_payment->error));
 							$this->error = true;
-							die($this->descriptionError($request_payment->error));
+							// $this->d($this->descriptionError($request_payment->error));
+							$this->response->redirect($this->url->link('checkout/failure', '', 'SSL'));
 						break;
 					case 'hold_for_pickup':
 						if($this->config->get('ya_p2p_log'))
@@ -299,6 +309,7 @@ class ControllerPaymentYamodule extends Controller
 						// $this->response->setOutput($this->load->view('default/template/payment/wallet_error.tpl', $data));
 					// }
 					$data['shopFailURL'] = $this->url->link('checkout/failure', '', 'SSL');
+					$this->response->redirect($this->url->link('checkout/failure', '', 'SSL'));
 				}
 			}
 			else
@@ -322,8 +333,7 @@ class ControllerPaymentYamodule extends Controller
 			{
 				if($this->config->get('ya_kassa_log'))
 					$this->log_save('callback:  checkOrder');
-				$code = $this->model_yamodel_yamoney->checkOrder($data);
-				$this->model_yamodel_yamoney->sendCode($data, $code);
+				$this->model_yamodel_yamoney->checkOrder($data, true, false);
 			}
 
 			if ($data['action'] == 'paymentAviso'){

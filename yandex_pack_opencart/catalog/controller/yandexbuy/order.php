@@ -38,8 +38,7 @@ class ControllerYandexbuyOrder extends Controller
 		else
 		{
 			$json = file_get_contents("php://input");
-			$this->log_save($json);
-			// $json = '{"order":{"id":191349,"fake":true,"currency":"RUR","paymentType":"POSTPAID","paymentMethod":"CASH_ON_DELIVERY","delivery":{"type":"POST","price":5.83,"serviceName":"Flat Rate","id":"387","dates":{"fromDate":"15-12-2014","toDate":"15-12-2014"},"region":{"id":13,"name":"Тамбов","type":"CITY","parent":{"id":10802,"name":"Тамбовская область","type":"SUBJECT_FEDERATION","parent":{"id":3,"name":"Центральный федеральный округ","type":"COUNTRY_DISTRICT","parent":{"id":225,"name":"Россия","type":"COUNTRY"}}}},"address":{"country":"Россия","postcode":"392028","city":"Тамбов","street":"2-й почтовый проезд","house":"7","block":"1"}},"items":[{"feedId":392329,"offerId":"30c50c54","feedCategoryId":"20","offerName":"30c50c54_tovar","price":7634.68,"count":1,"delivery":true}],"notes":"тест примечание"}}';
+			$this->log_save('pokupki order accept: '.$json);
 			if (!$json)
 			{
 				header('HTTP/1.0 404 Not Found');
@@ -272,8 +271,7 @@ class ControllerYandexbuyOrder extends Controller
 		else
 		{
 			$json = file_get_contents("php://input");
-			$this->log_save($json);
-			// $json = '{"order":{"id":191899,"fake":true,"currency":"RUR","paymentType":"POSTPAID","paymentMethod":"CASH_ON_DELIVERY","status":"PROCESSING","creationDate":"15-12-2014 16:57:42","itemsTotal":6993.6,"total":6993.6,"delivery":{"type":"POST","price":0,"serviceName":"Free Shipping","id":"1017","dates":{"fromDate":"15-12-2014","toDate":"15-12-2014"},"region":{"id":13,"name":"Тамбов","type":"CITY","parent":{"id":10802,"name":"Тамбовская область","type":"SUBJECT_FEDERATION","parent":{"id":3,"name":"Центральный федеральный округ","type":"COUNTRY_DISTRICT","parent":{"id":225,"name":"Россия","type":"COUNTRY"}}}},"address":{"country":"Россия","postcode":"392030","city":"Тамбов","street":"Моршанка","house":"29","block":"1","apartment":"21","recipient":"Макс Бес","phone":"+79204980182"}},"buyer":{"id":"gHd7sXHpVDxmm72Fi2jmaw==","lastName":"Беспечальных","firstName":"Максим","phone":"+79204980182","email":"esyara1@yandex.ru"},"items":[{"feedId":392329,"offerId":"30c51c52","feedCategoryId":"20","offerName":"30c51c52_tovar","price":6993.6,"count":1}],"notes":"примечански"}}';
+			$this->log_save('pokupki order status: '.$json);
 			if (!$json)
 			{
 				header('HTTP/1.0 404 Not Found');
@@ -353,7 +351,7 @@ class ControllerYandexbuyOrder extends Controller
 	
 	public static function log_save($logtext)
 	{
-		$real_log_file = './'.date('Y-m-d').'.log';
+		$real_log_file = './ya_logs/'.date('Y-m-d').'.log';
 		$h = fopen($real_log_file , 'ab');
 		fwrite($h, date('Y-m-d H:i:s ') . '[' . addslashes($_SERVER['REMOTE_ADDR']) . '] ' . $logtext . "\n");
 		fclose($h);
