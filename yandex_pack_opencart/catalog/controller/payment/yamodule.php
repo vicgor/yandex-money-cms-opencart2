@@ -6,7 +6,8 @@ class ControllerPaymentYamodule extends Controller
 	public $error;
 	public $errors;
 
-	public function inside() {
+	public function inside()
+	{
 		die('ok');
 	}
 
