@@ -1,5 +1,5 @@
-#[YandexCMSModule Opencart 2](https://github.com/aTastyCookie/yandex_opencart2/blob/master/yandex_pack_opencart.zip) 
-##[ИНСТРУКЦИЯ ПО УСТАНОВКЕ](https://github.com/aTastyCookie/yandex_opencart2/blob/master/HOWTO-INSTALL.md) /  [INSTALLATION MANUAL](https://github.com/aTastyCookie/yandex_opencart2/blob/master/HOWTO-INSTALL.md)
+#[YandexCMSModule Opencart 2](https://github.com/yandex-money/yandex-money-cms-opencart2/raw/master/pack_yandex_oc.zip) 
+##[ИНСТРУКЦИЯ ПО УСТАНОВКЕ](https://github.com/yandex-money/yandex-money-cms-opencart2/blob/master/HOWTO-INSTALL.md) /  [INSTALLATION MANUAL](https://github.com/yandex-money/yandex-money-cms-opencart2/blob/master/HOWTO-INSTALL.md)
 
 Мы собрали все основные сервисы Яндекса в одном месте,чтобы вам было удобно работать со своим сайтом, сделанном на CMS Prestashop. Подробнее о возможностях этого модуля:
 
@@ -27,5 +27,5 @@
 ###Модуль СРС – размещение на Маркете
 > Модуль предназначен для размещения товарных предложений на Яндекс.Маркете. Так магазины могут привлекать на свой сайт больше посетителей, действительно заинтересованных в покупке. YML-формат обеспечивает максимально корректную передачу данных о товарах в Маркет.  
 
-##Нашли ошибку или багу?
-Пишите нам uymcms@yandex.ru
+##Нашли ошибку или у вас есть предложение по улучшению модуля?
+Пишите нам cms@yamoney.ru
