@@ -31,11 +31,12 @@
 
 Все необходимые ссылки вы найдёте в настройках модуля!
 
-Также для работы Метрики необходим vqmod
 
-[видео по установке](https://code.google.com/p/vqmod/wiki/Install_OpenCart)
+**Для работы Метрики необходим vqmod:**
 
 [Скачать vqmod](https://code.google.com/p/vqmod/downloads/list)
+
+[Видео по установке](https://code.google.com/p/vqmod/wiki/Install_OpenCart)
 
 -------------
 
