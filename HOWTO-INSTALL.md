@@ -16,7 +16,7 @@
   RewriteRule ^googlebase.xml$ index.php?route=feed/google_base [L]
   RewriteRule ^download/(.*) /index.php?route=error/not_found [L]
   ```
-[Скачать пример .htaccess]((https://github.com/yandex-money/yandex-money-cms-opencart2/blob/master/.htaccess-example)
+[Скачать пример .htaccess](https://github.com/yandex-money/yandex-money-cms-opencart2/blob/master/.htaccess-example)
 
 4.	Заходим в админку в Extension --> feed. Там устанавливаем наш модуль и настраиваем.
 
