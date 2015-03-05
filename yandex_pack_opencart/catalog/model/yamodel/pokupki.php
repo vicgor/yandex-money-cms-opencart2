@@ -102,6 +102,14 @@ Class ModelYamodelPokupki extends Model
 			die(print_r($response));
 	}
 
+	public static function log_save($logtext)
+	{
+		$real_log_file = './ya_logs/'.date('Y-m-d').'.log';
+		$h = fopen($real_log_file , 'ab');
+		fwrite($h, date('Y-m-d H:i:s ') . '[' . addslashes($_SERVER['REMOTE_ADDR']) . '] ' . $logtext . "\n");
+		fclose($h);
+	}
+
 	public static function post($url, $headers, $params, $type){
 		$curlOpt = array(
 			CURLOPT_HEADER => 0,

@@ -52,7 +52,7 @@ class ControllerFeedYamarket extends Controller {
 
 			if ($this->config->get('ya_market_available'))
 				if($product['quantity'] < 1)
-					continue;
+					return;
 
 			$available = 'false';
 			if ($this->config->get('ya_market_set_available') == 1)
@@ -66,7 +66,7 @@ class ControllerFeedYamarket extends Controller {
 			{
 				$available = 'true';
 				if ($product['quantity'] == 0)
-					continue;
+					return;
 			}
 			elseif ($this->config->get('ya_market_set_available') == 4)
 				$available = 'false';

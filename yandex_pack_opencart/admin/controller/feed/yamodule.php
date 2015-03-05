@@ -146,47 +146,9 @@ class ControllerFeedYamodule extends Controller {
 		return $data;
 	}
 
-	public function sendSettings($post, $action)
-	{
-		$query = $this->db->query("SELECT `email` FROM " . DB_PREFIX . "user WHERE user_group_id = 1");
-		$array = array(
-			'cms' => 'opencart2',
-			'module' => $action,
-			'adminemail' => $query->row['email']
-		);
-
-		$post = array_merge($post, $array);
-		$url = 'http://stat.ymwork.ru/index.php';
-		$curlOpt = array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLINFO_HEADER_OUT => 1,
-            CURLOPT_MAXREDIRS => 3,
-            CURLOPT_CONNECTTIMEOUT => 30,
-            CURLOPT_TIMEOUT => 80,
-			CURLOPT_PUT => 1,
-			CURLOPT_BINARYTRANSFER => 1,
-			CURLOPT_REFERER => $_SERVER['SERVER_NAME']
-        );
-
-		$headers[] = 'Content-Type: application/x-yametrika+json';
-		$body = json_encode($post);
-		$fp = fopen('php://temp/maxmemory:256000', 'w');
-		fwrite($fp, $body);
-		fseek($fp, 0);
-		$curlOpt[CURLOPT_INFILE] = $fp; // file pointer
-		$curlOpt[CURLOPT_INFILESIZE] = strlen($body);
-        $curl = curl_init($url);
-        curl_setopt_array($curl, $curlOpt);
-        $rbody = curl_exec($curl);
-        $errno = curl_errno($curl);
-        $error = curl_error($curl);
-        $rcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
-	}
-
 	public function saveData($source)
 	{
-		$this->sendSettings($_POST, $this->request->post['type_data']);
+		// $this->sendSettings($_POST, $this->request->post['type_data']);
 		foreach ($source as $s)
 			if (isset($this->request->post[$s]))
 				$this->model_setting_setting->editSetting($s, $this->request->post);
@@ -209,6 +171,7 @@ class ControllerFeedYamodule extends Controller {
 				$this->session->data['p2p_status'] = array();
 				$this->saveData($this->fields_p2p);
 				$this->session->data['p2p_status'][] = $this->success_alert('Настройки успешно сохранены!');
+				// $this->session->data['p2p_status'][] = $this->errors_alert('Настройки успешно сохранены!');
 				if($this->request->post['ya_p2p_active'] == 1)
 					$this->model_setting_setting->editSetting('ya_kassa_active', array('ya_kassa_active' => 0));
 				break;
@@ -239,15 +202,26 @@ class ControllerFeedYamodule extends Controller {
 		foreach ($array as $a)
 			$data[$a] = $this->config->get($a);
 
-		$data['ya_p2p_linkapp'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/inside';
 		$data['ya_kassa_check'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/callback';
 		$data['ya_kassa_aviso'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/callback';
-		$data['ya_kassa_fail'] = HTTPS_CATALOG.'index.php?route=checkout/failure';
-		$data['ya_kassa_success'] = HTTPS_CATALOG.'index.php?route=checkout/success';
+		$data['ya_pokupki_sapi'] = HTTPS_CATALOG.'yandexbuy';
+		if ($this->config->get('config_secure'))
+		{
+			$data['ya_kassa_fail'] = HTTPS_CATALOG.'index.php?route=checkout/failure';
+			$data['ya_kassa_success'] = HTTPS_CATALOG.'index.php?route=checkout/success';
+			$data['ya_p2p_linkapp'] = HTTPS_CATALOG.'index.php?route=payment/yamodule/inside';
+			$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamarket';
+		}
+		else
+		{
+			$data['ya_kassa_fail'] = HTTP_CATALOG.'index.php?route=checkout/failure';
+			$data['ya_kassa_success'] = HTTP_CATALOG.'index.php?route=checkout/success';
+			$data['ya_p2p_linkapp'] = HTTP_CATALOG.'index.php?route=payment/yamodule/inside';
+			$data['ya_market_lnk_yml'] = HTTP_CATALOG.'index.php?route=feed/yamarket';
+		}
+
 		$data['ya_metrika_callback'] = $this->url->link('feed/yamodule/preparem', 'token='.$this->session->data['token'], 'SSL');
 		$data['ya_pokupki_callback'] = $this->url->link('feed/yamodule/preparep', 'token='.$this->session->data['token'], 'SSL');
-		$data['ya_pokupki_sapi'] = HTTPS_CATALOG.'yandexbuy';
-		$data['ya_market_lnk_yml'] = HTTPS_CATALOG.'index.php?route=feed/yamarket';
 		$data['ya_pokupki_gtoken'] = $this->config->get('ya_pokupki_gtoken');
 		$data['ya_metrika_o2auth'] = $this->config->get('ya_metrika_o2auth');
 		$data['token_url'] = 'https://oauth.yandex.ru/token?';
@@ -720,7 +694,6 @@ class ControllerFeedYamodule extends Controller {
 
 	public function uninstall()
 	{
-		// $this->db->query("DROP TABLE `".DB_PREFIX."pokupki_orders`");
 		$cu = $this->getCustomer($this->config->get('yandexbuy_customer'));
 		if ($cu['customer_id'] && $cu['address_id'])
 		{

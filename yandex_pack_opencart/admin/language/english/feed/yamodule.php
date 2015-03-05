@@ -1,7 +1,7 @@
 <?php
 // Heading
-$_['heading_title']      = 'Яндекс.Пак';
-$_['heading_title_ya']      = 'Яндекс.Пак';
+$_['heading_title']      = 'Ya CMS OpenCart 2';
+$_['heading_title_ya']      = 'Ya CMS OpenCart 2';
 
 // Text
 $_['p2p']          = 'yandex p2p';
@@ -47,13 +47,13 @@ $_['kassa_sid']       = 'ShopId';
 $_['kassa_scid']       = 'SCID';
 $_['kassa_pw']       = 'Пароль';
 $_['kassa_method']       = 'Активные методы оплаты';
-$_['kassa_wallet']       = 'Яндекс кошелёк';
-$_['kassa_wm']       = 'Webmoney';
-$_['kassa_mobile']       = 'SMS';
+$_['kassa_wallet']       = 'Яндекс.Деньги';
+$_['kassa_wm']       = 'WebMoney';
+$_['kassa_mobile']       = 'Наличными';
 $_['kassa_card']       = 'Банковские карты';
-$_['kassa_terminal']       = 'Терминал';
-$_['kassa_sber']       = 'Сбербанк';
-$_['kassa_alfa']       = 'АльфаБанк';
+$_['kassa_terminal']       = 'Счет мобильного телефона';
+$_['kassa_sber']       = 'Сбербанк Онлайн';
+$_['kassa_alfa']       = 'Альфа-Клик';
 $_['kassa_check']       = 'checkOrder';
 $_['kassa_fail']       = 'fail';
 $_['kassa_success']       = 'success';
