@@ -22,14 +22,24 @@
 
 5.	Для работы Яндекс Касса необходим работающий https.
 
-Внимание! Если вы хотите использовать p2p вам сначала необходимо зарегистрировать приложение на странице https://tech.yandex.ru/money/doc/dg/tasks/register-client-docpage/
-есть инструкция.
 
-Для сервисов Метрика и Покупки на странице https://tech.yandex.ru/oauth/doc/dg/tasks/register-client-docpage/
+**Внимание!**
+
+Если вы хотите использовать p2p,то вам сначала необходимо [зарегистрировать своё приложение](https://tech.yandex.ru/money/doc/dg/tasks/register-client-docpage/).
+
+Для сервисов Метрика и Маркет необходимо [зарегистрировать приложение](https://tech.yandex.ru/oauth/doc/dg/tasks/register-client-docpage/) на OAuth-сервере.
+
 Все необходимые ссылки вы найдёте в настройках модуля!
 
-Также для работы метрика необходим vqmod
-https://code.google.com/p/vqmod/wiki/Install_OpenCart видео по установке
-https://code.google.com/p/vqmod/downloads/list Ссылки на vqmod.
 
+**Для работы Метрики необходим vqmod:**
 
+[Скачать vqmod](https://code.google.com/p/vqmod/downloads/list)
+
+[Видео по установке](https://code.google.com/p/vqmod/wiki/Install_OpenCart)
+
+-------------
+
+**Нашли ошибку или у вас есть предложение по улучшению модуля?**
+
+Пишите нам cms@yamoney.ru
