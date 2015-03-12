@@ -1,7 +1,7 @@
 #[Y.CMS Opencart 2](https://github.com/yandex-money/yandex-money-cms-opencart2/raw/master/pack_yandex_oc.zip) 
 ##[ИНСТРУКЦИЯ ПО УСТАНОВКЕ](https://github.com/yandex-money/yandex-money-cms-opencart2/blob/master/HOWTO-INSTALL.md) /  [INSTALLATION MANUAL](https://github.com/yandex-money/yandex-money-cms-opencart2/blob/master/HOWTO-INSTALL.md)
 
-Мы собрали все основные сервисы Яндекса в одном месте,чтобы вам было удобно работать со своим сайтом, сделанном на CMS Prestashop. Подробнее о возможностях этого модуля:
+Мы собрали все основные сервисы Яндекса в одном месте,чтобы вам было удобно работать со своим сайтом, сделанном на OpenCart2. Подробнее о возможностях этого модуля:
 
 ##[Яндекс.Касса](http://kassa.yandex.ru/) и на вашем сайте будут самые популярные способы оплаты.
 > Доступные платежные методы, если вы работаете как юридические лицо:
