@@ -6,8 +6,7 @@ class ControllerPaymentYamodule extends Controller
 	public $error;
 	public $errors;
 
-	public function inside()
-	{
+	public function inside() {
 		die('ok');
 	}
 
@@ -31,7 +30,7 @@ class ControllerPaymentYamodule extends Controller
 		$data['shopSuccessURL'] = $this->url->link('checkout/success', '', 'SSL');
 		$data['shopFailURL'] = $this->url->link('checkout/failure', '', 'SSL');
 		$data['comment'] = $order_info['comment'];
-		$data['sum'] = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2);
+		$data['sum'] = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2, '.', '');
 		$data['method_ym'] = $this->config->get('ya_kassa_wallet');
 		$data['method_cards'] = $this->config->get('ya_kassa_card');
 		$data['method_cash'] = $this->config->get('ya_kassa_terminal');
@@ -159,7 +158,7 @@ class ControllerPaymentYamodule extends Controller
 			$message = 'payment to order #'.$this->session->data['order_id'];
 			$this->load->model('checkout/order');
 			$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-			$total = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2);
+			$total = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2, '.', '');
 			$payment_options = array(
 				'pattern_id' => 'p2p',
 				'to' => $this->config->get('ya_p2p_number'),
@@ -242,7 +241,7 @@ class ControllerPaymentYamodule extends Controller
 				$message = 'payment to order #'.$this->session->data['order_id'];
 				$this->load->model('checkout/order');
 				$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-				$total = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2);
+				$total = number_format($this->currency->convert($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false), $order_info['currency_code'], 'RUB'), 2, '.', '');
 				$rarray = array(
 					'pattern_id' => 'p2p',
 					'to' => $this->config->get('ya_p2p_number'),
